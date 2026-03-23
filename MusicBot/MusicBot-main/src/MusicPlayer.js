@@ -613,19 +613,19 @@ class MusicPlayer {
                 
                 await youtubedl(downloadUrl, {
                     output: filepath,
-                    format: 'bestaudio',
+                    format: 'bestaudio[ext=webm]/bestaudio[ext=m4a]/bestaudio/best',
                     noCheckCertificates: true,
                     noWarnings: true,
                     preferFreeFormats: true,
+                    cookies: path.join(__dirname, '..', 'cookies.txt'),
                     addHeader: [
                         'referer:youtube.com',
-                        'user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                        'user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
                     ],
-                    postprocessorArgs: {
-                        'ffmpeg': ['-c:a', 'libopus', '-b:a', '128k']
-                    },
                     extractAudio: true,
-                    audioFormat: 'opus'
+                    audioFormat: 'opus',
+                    audioQuality: 0,
+                    postprocessorArgs: 'ffmpeg:-c:a libopus -b:a 128k'
                 });
             } else {
                 // For DirectLink - fetch and transcode with FFmpeg
